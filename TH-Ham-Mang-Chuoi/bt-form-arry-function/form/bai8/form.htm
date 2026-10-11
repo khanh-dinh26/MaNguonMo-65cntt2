@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập thông tin</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            margin-top: 50px; 
+            font-size: 16px;
+        }
+        
+        .container { 
+            width: 580px; 
+            margin: auto; 
+        }
+        
+        fieldset {
+            border: 1px solid #777;
+            padding: 15px 15px 20px 15px;
+            margin: 0;
+        }
+        
+        legend {
+            font-weight: bold;
+            font-size: 18px;
+            padding: 0 5px;
+        }
+        
+        .row { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 8px; 
+        }
+        
+        .label-text { 
+            width: 90px; 
+            margin-top: 2px;
+        }
+        
+        .input-group { 
+            flex: 1; 
+        }
+        
+        input[type="text"] { 
+            width: 220px; 
+            padding: 2px 4px; 
+            border: 1px solid #a9a9a9;
+        }
+        
+        select { 
+            padding: 2px; 
+            width: 120px; 
+            border: 1px solid #a9a9a9;
+        }
+        
+        textarea { 
+            width: 380px; 
+            height: 70px; 
+            padding: 4px; 
+            border: 1px solid #a9a9a9;
+            resize: vertical;
+        }
+        
+        .radio-item, .checkbox-item {
+            margin-right: 10px; 
+        }
+
+        .checkbox-item input, .radio-item input {
+            margin: 0 2px 0 0;
+            vertical-align: middle;
+        }
+        
+        .btn-group { 
+            margin-left: 90px; 
+            margin-top: 5px; 
+        }
+        
+        button { 
+            padding: 2px 10px; 
+            cursor: pointer; 
+            margin-right: 5px; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <form action="config.php" method="POST">
+            <fieldset>
+                <legend>Enter Your Information</legend>
+                
+                <div class="row">
+                    <span class="label-text">Fullname</span>
+                    <div class="input-group">
+                        <input type="text" name="fullname" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <span class="label-text">Address</span>
+                    <div class="input-group">
+                        <input type="text" name="address" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <span class="label-text">Phone</span>
+                    <div class="input-group">
+                        <input type="text" name="phone" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <span class="label-text">Gender</span>
+                    <div class="input-group">
+                        <label class="radio-item"><input type="radio" name="gender" value="Nam" checked> Nam</label>
+                        <label class="radio-item"><input type="radio" name="gender" value="Nữ"> Nữ</label>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <span class="label-text">Country</span>
+                    <div class="input-group">
+                        <select name="country">
+                            <option value="Việt Nam">Việt Nam</option>
+                            <option value="Mỹ">Mỹ</option>
+                            <option value="Nhật Bản">Nhật Bản</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <span class="label-text">Study</span>
+                    <div class="input-group">
+                        <label class="checkbox-item"><input type="checkbox" name="study[]" value="PHP & MySQL"> PHP & MySQL</label>
+                        <label class="checkbox-item"><input type="checkbox" name="study[]" value="ASP.NET"> ASP.NET</label>
+                        <label class="checkbox-item"><input type="checkbox" name="study[]" value="CCNA"> CCNA</label>
+                        <label class="checkbox-item"><input type="checkbox" name="study[]" value="Security+"> Security+</label>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <span class="label-text">Note</span>
+                    <div class="input-group">
+                        <textarea name="note"></textarea>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button type="submit">Gửi</button>
+                    <button type="reset">Hủy</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+</html>

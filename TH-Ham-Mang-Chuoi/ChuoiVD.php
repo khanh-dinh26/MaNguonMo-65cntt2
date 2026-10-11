@@ -36,6 +36,13 @@
         font-weight: bold; 
         outline: none;
         }
+        h2 { 
+            text-align: center; 
+            background-color: #c21826;
+            color: white; 
+            margin: -20px -30px 20px -30px; 
+            padding: 15px 0;
+        }
         .btn { 
         display: block; 
         margin: 10px auto 0; 
@@ -51,14 +58,21 @@
     $ket_qua_tich = "";
 
     if (isset($_POST['tinh'])) {
-        $chuoi_so = $_POST['chuoi_so'];
+        $chuoi_so = trim($_POST['chuoi_so']);
         $mang_so = explode(",", $chuoi_so);
         $ket_qua_tich = 1;
-        
+        $co_loi = false;
+
         foreach ($mang_so as $so) {
-            if (is_numeric(trim($so))) {
-                $ket_qua_tich *= trim($so);
+            $gia_tri = trim($so);
+            if ($gia_tri === "" || !is_numeric($gia_tri)) {
+                $co_loi = true;
+                break;
             }
+            $ket_qua_tich *= (float)$gia_tri;
+        }
+        if ($co_loi) {
+            $ket_qua_tich = "Lỗi: Dãy số chỉ được chứa số, cách nhau bằng dấu phẩy!";
         }
     }
     ?>
@@ -67,10 +81,10 @@
         <h2>TÍNH TÍCH DÃY SỐ</h2>
         
         <label>Nhập dãy số:</label>
-        <input type="text" name="chuoi_so" value="<?php echo $chuoi_so; ?>"><br>
+        <input type="text" name="chuoi_so" value="<?php echo htmlspecialchars($chuoi_so); ?>" required><br>
         
         <label>Tích dãy số:</label>
-        <input type="text" name="ket_qua" value="<?php echo $ket_qua_tich; ?>" readonly><br>
+        <input type="text" name="ket_qua" value="<?php echo htmlspecialchars($ket_qua_tich); ?>" readonly><br>
         
         <input type="submit" name="tinh" value="Tích dãy số" class="btn">
     </form>

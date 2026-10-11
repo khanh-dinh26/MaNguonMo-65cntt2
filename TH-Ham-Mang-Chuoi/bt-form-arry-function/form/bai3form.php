@@ -6,62 +6,44 @@
     <title>Thanh Toán Tiền Điện</title>
     <style>
         body { 
-            font-family: Arial, sans-serif; 
+            font-family: sans-serif; 
             text-align: center; 
-            margin-top: 50px; 
-        }
+            margin-top: 50px; }
         
         form { 
             display: inline-block; 
-            border: 2px solid #f57f17; 
-            padding: 20px 30px; 
-            border-radius: 8px; 
-            background-color: #fffde7; 
+            background-color: #fce4d6; 
+            padding: 20px; 
+            border: 1px solid #ccc; 
             text-align: left; 
         }
         
         h2 { 
             text-align: center; 
-            background-color: #d36607;
-            padding: 12px;
-            border-radius: 4px;
+            background-color: #c21826; 
             color: white;
-            margin-top: 0; 
-        }
+            margin: -20px -20px 20px -20px; 
+            padding: 15px 0;
+         }
         
         label { 
             display: inline-block; 
-            width: 140px; 
+            width: 130px; 
             font-weight: bold; 
         }
         
         input { 
-            padding: 5px; 
-            width: 150px; 
             margin-bottom: 10px; 
         }
 
         input[readonly] { 
-            background-color: #ffe082; 
+            background-color: #eee; 
             color: red; 
-            font-weight: bold; 
-            outline: none; 
         }
         
         button { 
-            padding: 8px 20px; 
-            background-color: #f57f17; 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
             display: block; 
-            margin: 15px auto 0; 
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        
-        button:hover {
-            background-color: #e65100;
+            margin: 10px auto 0; 
         }
     </style>
 </head>
@@ -75,15 +57,24 @@
     $sotien = "";
 
     if (isset($_POST['tinh'])) {
-        $tenchuho = $_POST['tenchuho'];
-        $chisocu = $_POST['chisocu'];
-        $chisomoi = $_POST['chisomoi'];
-        $dongia = $_POST['dongia'];
-        
-        if ($chisomoi >= $chisocu) {
-            $sotien = ($chisomoi - $chisocu) * $dongia;
+        // Ô văn bản: cho phép nhập chữ bình thường, bỏ qua kiểm tra số
+        $tenchuho = trim($_POST['tenchuho']);
+
+        $chisocu_raw = trim($_POST['chisocu']);
+        $chisomoi_raw = trim($_POST['chisomoi']);
+        $dongia_raw = trim($_POST['dongia']);
+        $chisocu = $chisocu_raw;
+        $chisomoi = $chisomoi_raw;
+        $dongia = is_numeric($dongia_raw) ? $dongia_raw : 20000;
+
+        if (!is_numeric($chisocu_raw) || !is_numeric($chisomoi_raw) || !is_numeric($dongia_raw)) {
+            $sotien = "Lỗi: Chỉ số và đơn giá phải là số!";
+        } elseif ((float)$chisocu_raw < 0 || (float)$chisomoi_raw < 0 || (float)$dongia_raw < 0) {
+            $sotien = "Lỗi: Số không được âm!";
+        } elseif ((float)$chisomoi_raw >= (float)$chisocu_raw) {
+            $sotien = ((float)$chisomoi_raw - (float)$chisocu_raw) * (float)$dongia_raw;
         } else {
-            $sotien = "Lỗi chỉ số!";
+            $sotien = "Lỗi: Chỉ số mới phải >= chỉ số cũ!";
         }
     }
     ?>
@@ -92,19 +83,19 @@
         <h2>THANH TOÁN TIỀN ĐIỆN</h2>
         
         <label>Tên chủ hộ:</label>
-        <input type="text" name="tenchuho" value="<?php echo $tenchuho; ?>" required> <br>
+        <input type="text" name="tenchuho" value="<?php echo htmlspecialchars($tenchuho); ?>" required> <br>
         
         <label>Chỉ số cũ:</label>
-        <input type="number" step="any" name="chisocu" value="<?php echo $chisocu; ?>" required> (Kw) <br>
+        <input type="text" name="chisocu" value="<?php echo htmlspecialchars($chisocu); ?>" required> (Kw) <br>
         
         <label>Chỉ số mới:</label>
-        <input type="number" step="any" name="chisomoi" value="<?php echo $chisomoi; ?>" required> (Kw) <br>
+        <input type="text" name="chisomoi" value="<?php echo htmlspecialchars($chisomoi); ?>" required> (Kw) <br>
         
         <label>Đơn giá:</label>
-        <input type="number" step="any" name="dongia" value="<?php echo $dongia; ?>" required> (VNĐ) <br>
+        <input type="text" name="dongia" value="<?php echo htmlspecialchars($dongia); ?>" required> (VNĐ) <br>
         
         <label>Số tiền thanh toán:</label>
-        <input type="text" name="sotien" value="<?php echo $sotien; ?>" readonly> (VNĐ) <br>
+        <input type="text" name="sotien" value="<?php echo htmlspecialchars($sotien); ?>" readonly> (VNĐ) <br>
         
         <button type="submit" name="tinh">Tính</button>
     </form>

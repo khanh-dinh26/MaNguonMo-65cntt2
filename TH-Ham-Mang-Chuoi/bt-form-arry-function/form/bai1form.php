@@ -5,59 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dien tich HCN</title>
     <style>
-    body { 
-        font-family: Arial, sans-serif; 
-        text-align: center; 
-        margin-top: 50px; 
-    }
-    
-    form { 
-        display: inline-block; 
-        border: 2px solid #d35400; 
-        padding: 20px; 
-        border-radius: 8px; 
-        background-color: #fce4d6; 
-        text-align: left; 
-    }
-    
-    h2 { 
-        text-align: center; 
-        margin-top: 0; 
-        background-color: #c21826;
-        padding: 12px;
-        border-radius: 4px;
-        color: white;
-    }
-    
-    label { 
-        display: inline-block; 
-        width: 100px; 
-        font-weight: bold; 
-    }
-    
-    input { 
-        padding: 5px; 
-        width: 150px; 
-        margin-bottom: 10px; 
-    }
+        body { 
+            font-family: sans-serif; 
+            text-align: center; 
+            margin-top: 50px; }
+        
+        form { 
+            display: inline-block; 
+            background-color: #fce4d6; 
+            padding: 20px; 
+            border: 1px solid #ccc; 
+            text-align: left; 
+        }
+        
+        h2 { 
+            text-align: center; 
+            background-color: #c21826; 
+            color: white;
+            margin: -20px -20px 20px -20px; 
+            padding: 15px 0;
+         }
+        
+        label { 
+            display: inline-block; 
+            width: 130px; 
+            font-weight: bold; 
+        }
+        
+        input { 
+            margin-bottom: 10px; 
+        }
 
-    input[readonly] { 
-        background-color: #fde9d9; 
-        color: red; 
-        font-weight: bold; 
-        outline: none; 
-    }
-    
-    button { 
-        padding: 6px 12px; 
-        background-color: #007bff; 
-        color: white; 
-        border: none; 
-        cursor: pointer; 
-        display: block; 
-        margin: 10px auto 0; 
-        border-radius: 4px; 
-    }
+        input[readonly] { 
+            background-color: #eee; 
+            color: red; 
+        }
+        
+        button { 
+            display: block; 
+            margin: 10px auto 0; 
+        }
+    </style>
 </style>
 </head>
 <body>
@@ -68,9 +56,20 @@
     $dientich = "";
 
     if (isset($_POST['dai']) && isset($_POST['rong'])) {
-        $dai = $_POST['dai'];
-        $rong = $_POST['rong'];
-        $dientich = $dai * $rong;
+        $dai_raw = trim($_POST['dai']);
+        $rong_raw = trim($_POST['rong']);
+        $dai = $dai_raw;
+        $rong = $rong_raw;
+
+        if (!is_numeric($dai_raw) || !is_numeric($rong_raw)) {
+            $dientich = "Lỗi: Vui lòng chỉ nhập số!";
+        } elseif ((float)$dai_raw <= 0 || (float)$rong_raw <= 0) {
+            $dientich = "Lỗi: Cạnh phải > 0";
+        } elseif ((float)$rong_raw > (float)$dai_raw) {
+            $dientich = "Lỗi: Rộng không được lớn hơn Dài";
+        } else {
+            $dientich = (float)$dai_raw * (float)$rong_raw;
+        }
     }
     ?>
 
@@ -78,13 +77,13 @@
         <h2>Tính Diện Tích</h2>
         
         <label>Chiều dài:</label>
-        <input type="number" step="any" name="dai" value="<?php echo $dai; ?>" required> cm <br>
+        <input type="text" name="dai" value="<?php echo htmlspecialchars($dai); ?>" required> cm <br>
         
         <label>Chiều rộng:</label>
-        <input type="number" step="any" name="rong" value="<?php echo $rong; ?>" required> cm <br>
+        <input type="text" name="rong" value="<?php echo htmlspecialchars($rong); ?>" required> cm <br>
         
         <label>Diện tích:</label>
-        <input type="text" name="dientich" value="<?php echo $dientich; ?>" readonly> cm² <br>
+        <input type="text" name="dientich" value="<?php echo htmlspecialchars($dientich); ?>" readonly> cm² <br>
         
         <button type="submit">Tính Toán</button>
     </form>

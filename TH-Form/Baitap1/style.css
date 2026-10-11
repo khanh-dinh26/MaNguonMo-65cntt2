@@ -14,9 +14,12 @@ form, .container {
 }
 
 
-h2 {
-    text-align: center;
-    margin-top: 0;
+h2 { 
+    text-align: center; 
+    background-color: #c21826;
+    color: white; 
+    margin: -20px -20px 20px -20px; 
+    padding: 15px 0;
 }
 
 

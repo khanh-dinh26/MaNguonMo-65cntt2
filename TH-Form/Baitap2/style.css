@@ -11,10 +11,12 @@ body {
     border-radius: 8px; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-h2 {
-    border-bottom: 2px solid #8e44ad; 
-    display: inline-block; 
-    margin-top: 0; 
+h2 { 
+    text-align: center; 
+    background-color: #c21826;
+    color: white; 
+    margin: -20px -20px 20px -20px; 
+    padding: 15px 0;
 }
 .form-grid {
     display: grid; 
